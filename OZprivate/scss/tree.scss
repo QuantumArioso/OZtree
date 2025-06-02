@@ -349,6 +349,7 @@ ul.ui-controls.button-label-hidden {
     margin-bottom:0;
     height: 2rem;
     padding-right: 2rem; /* allow for the expand button */
+    order: 2;
 }
 #external-modal .external-content .external-tabs>li {
     height:inherit;

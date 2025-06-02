@@ -345,11 +345,13 @@ ul.ui-controls.button-label-hidden {
 
 #external-modal .external-content .external-tabs {
     box-sizing: border-box;
-    margin-top:0;
-    margin-bottom:0;
+    margin:0;
     height: 2rem;
     padding-right: 2rem; /* allow for the expand button */
+    padding-left: 0;
     order: 2;
+    border-top: 1.5px solid #807f7f;
+    width: 100%;
 }
 #external-modal .external-content .external-tabs>li {
     height:inherit;

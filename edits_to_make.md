@@ -7,5 +7,4 @@ This will be vertical layout on very large touch screens. Therefore, the buttons
     - COMPLETE: Search bar pop-up suggestions need to appear above search bar, not below
 - COMPLETE: Settings button can be moved to bottom left, above Tours
     - ??: We might want to remove access to some of the settings, or have some sort of reset feature after a couple minutes of inactivity
-- In the pop-ups for each organism, the top header bar should be moved to the bottom
-    - Tabs and close button moved, the expand button still needs to be moved (or deleted)
+- COMPLETE: In the pop-ups for each organism, the top header bar should be moved to the bottom, delete expand button

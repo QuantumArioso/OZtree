@@ -307,7 +307,7 @@
 {{#the linkout buttons are forms, to allow post requests to pass on reservation codes
   if request.vars.links!='none':
 }}
-            <form class="no_disable" target="_blank" method="post" onsubmit="return true"><a uk-tooltip="pos: left" title="{{=T('Open this %s tab in a new window') % (T(tab['name'], lazy=False),)}}" uk-icon="icon: expand; ratio: 0.75" target="_blank"></a></form>
+            
 {{pass}}
           </div>
           <p class="iframe-loading-info uk-position-center">{{=T('Waiting for %s page to load') % (T(tab['name'], lazy=False))}}<br /><img src="{{=URL('static','images/ajax-loader.gif')}}" /></p>

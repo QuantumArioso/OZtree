@@ -61,8 +61,10 @@ progress[value] {
 
   button.uk-modal-close-default {
     /* Modal button closer to edge than default */
-    top: 0;
-    right: 0;
+    top: auto;
+    bottom: 0;
+    right: 0; /*TO-DO: continue from here why is button not at bottom? */
+    padding: 0.5rem;
   }
 }
 

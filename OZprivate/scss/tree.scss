@@ -54,7 +54,7 @@ body.loading #UI #loading_spinner {
 }
 
 #UI {
-  .ui-topleft, .ui-topright, .ui-bottomleft, .ui-bottomright {
+  .ui-topleft, .ui-topright, .ui-bottomleft, .ui-bottommiddle, .ui-bottommiddle-element, .ui-bottomright {
     margin: 0.5rem;
   }
   .ui-topleft {
@@ -72,6 +72,11 @@ body.loading #UI #loading_spinner {
     bottom: 0;
     left: 0;
     margin-right: 0;
+  }
+  .ui-bottommiddle {
+    position: fixed;
+    bottom: 0;
+    left: 21rem;
   }
   .ui-bottomright {
     position: fixed;

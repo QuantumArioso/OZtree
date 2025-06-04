@@ -23,7 +23,7 @@
 3.) IUCN colour scheme
 -->
 <h3>What the colours mean</h3>
-<p> Under default settings, the leaf colours correspond to the risk of extinction for the species that leaf represents. Leaves corresponding to species that are "vulnerable", "endangered", or "critically endangered" according to the International Union for the Conservation of Nature (IUCN) {{=A('Red List', _href="http://www.iucnredlist.org")}} are shown in red. These are all the species that are known to be under threat of extinction. The leaves shown in green represent species that are known to be okay for now (not under threat of extinction). These are "least concern" or "near threatened" species.</p>
+<p> Under default settings, the leaf colours correspond to the risk of extinction for the species that leaf represents. Leaves corresponding to species that are "vulnerable", "endangered", or "critically endangered" according to the International Union for the Conservation of Nature (IUCN) Red List are shown in red. These are all the species that are known to be under threat of extinction. The leaves shown in green represent species that are known to be okay for now (not under threat of extinction). These are "least concern" or "near threatened" species.</p>
 
 <center><img src= "{{=URL('static','images/user_guide/IUCN_col_scheme_square.jpg')}}" alt=""></img></center>
 <p>Most of the leaves are grey meaning that their risk of extinction is not known. This could be because the species is "not evaluated", or classified as "data deficient" by the IUCN.  It is also possible that a species with a grey leaf has been assessed by the IUCN but under a different species name that we weren't able to identify automatically.
@@ -44,10 +44,6 @@
 <img src= "{{=URL('static','images/user_guide/data_sources.png')}}" alt="">
 </div>
 
-<p>The language setting does what it says on the tin: it enables you to change the language of the tree of life explorer itself. Unfortunately, it does not yet change the language on other pages of our website.</p>
-
-<p>The page content setting enables you to select between slightly different markups of extra information on the tree. So far the only alternative to our default is a markup to accompany The Ancestor's Tale (2016) book by Dawkins and Wong.</p>
-
 </div>
 </div>
 
@@ -61,15 +57,9 @@
 
 <img src= "{{=URL('static','images/user_guide/Settings_colour.jpg')}}" alt="">
 
-<p>You can change the colour scheme from the settings menu. Another nice colour scheme on offer shows how popular each species is according to our {{=A('index of species popularity', _href=URL('popularity','index'))}}.
-
-<img src= "{{=URL('static','images/user_guide/Pop_col_scheme.jpg')}}" alt="">
-
-<p> The settings menu also has a tick box for colour blind friendly versions of all colour schemes.</p>
+<p> The settings menu has a tick box for colour blind friendly versions of all colour schemes.</p>
 <center><img src= "{{=URL('static','images/user_guide/IUCN_col_scheme_CBF.jpg')}}" alt=""></img></center>
 
-<p> We have some plain colour schemes too in case you just want a simpler tree e.g. for screenshots using our {{=A('screenshot tool', _href=URL('default','screenshot_launcher'))}}.</p>
-<img src= "{{=URL('static','images/Screenshots/Life_spiral_brown.jpg')}}" alt="">
 </div>
 
 <div class = "uk-padding">
@@ -82,10 +72,6 @@
 <img src= "{{=URL('static','images/user_guide/Search.jpg')}}" alt="">
 
 <p>Please bear in mind, you won't find viruses or pre-historic species like dinosaurs. We hope to provide more information on these groups in future updates. Sill, there's already so much out there you'll be amazed what you can find.</p>
-
-<img src= "{{=URL('static','images/user_guide/Settings_search.jpg')}}" alt="">
-
-<p>In the settings menu, you can change the way you're taken to search results.  'Jump to results' will take the tree to place you want instantaneously. 'Fly to results' will automatically zoom you to your destination, which will take longer but allow you to see the context, including the relationship between what you're currently looking at and your search result.</p>
 
 </div>
 
@@ -200,29 +186,8 @@ Note that the tabs of information on offer aren't always the same as not every r
 </div>
 
 <div class = "uk-padding">
-
 <!--
-11.) Images sources
--->
-<h3>Image sources</h3>
-
-<p>We show the best quality images we can on the tree. Some images might require the author to be acknowledged, which is important to be aware of if you're reusing screenshots. Others might not be fully trusted as accurate images of the species.</p>
-
-<img src= "{{=URL('static','images/user_guide/Settings_images.png')}}" alt="">
-
-<p>In the settings you can select to show only 'verified' images that are more likely to be correct, or to show only 'public domain' images, which can be reused without acknowledging the source.</p>
-
-<img src= "{{=URL('static','images/user_guide/copyright.jpg')}}" alt="">
-<p>The copyright symbol next to each image contains further information about the source.</p>
-
-<img src= "{{=URL('static','images/user_guide/copyright_opened.png')}}" alt="">
-</div>
-</div>
-
-<div class="uk-grid-small uk-text-small uk-child-width-1-3@m " uk-grid>
-<div class = "uk-padding">
-<!--
-12.) find common ancestors and mark them (adding and CA button)
+11.) find common ancestors and mark them (adding and CA button)
 -->
 <h3>Common ancestors</h3>
 <p>The advanced search mode enables you to mark several locations on the tree and find their most recent common ancestor.</p>
@@ -237,6 +202,9 @@ Note that the tabs of information on offer aren't always the same as not every r
 
 
 </div>
+</div>
+
+<div class="uk-grid-small uk-text-small uk-child-width-1-3@m " uk-grid>
 <div class = "uk-padding">
 
 <h3>Marking more locations</h3>

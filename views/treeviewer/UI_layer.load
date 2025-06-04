@@ -93,10 +93,9 @@
         <ul class="uk-nav uk-navbar-dropdown-nav uk-margin-left">
           <li class="uk-nav-header">{{=T('Information')}}</li>
           <li><a href="#howuse-modal" uk-toggle><span uk-icon="icon: expand"></span>{{=T('How to use')}}</a></li>
-          <li><a href="#colkey-modal" uk-toggle><span uk-icon="icon: expand"></span>{{=T('Colour key')}}</a></li>
+          <li><a href="#colkey-modal" uk-toggle><span uk-icon="icon: expand"></span>{{=T('Color key')}}</a></li>
           <li><a href="#about-modal" uk-toggle><span uk-icon="icon: expand"></span>{{=T('About OneZoom')}}</a></li>
           <li><a href="#datasources-modal" uk-toggle><span uk-icon="icon: expand"></span>{{=T('Data sources')}}</a></li>
-          <li><a href="#terms-modal" uk-toggle><span uk-icon="icon: expand"></span>{{=T('Terms of use')}}</a></li>
 
           <li class="uk-nav-header">{{=T("Colors")}}</li>
           <li><input type="checkbox" id="CBF" name="CBF" unchecked> <label for="CBF">Color blind friendly</label></li>
@@ -216,7 +215,7 @@
 <div id="colkey-modal" class="uk-modal-container" uk-modal>
   <div class="uk-modal-dialog">
       <div class="uk-modal-header">
-        <h2 class="uk-modal-title">{{=T('Colour key')}}</h2>
+        <h2 class="uk-modal-title">{{=T('Color key')}}</h2>
       </div>
     <div class="uk-modal-body" uk-overflow-auto><p class="uk-position-center unloaded">{{=T('Getting OneZoom information')}}<br /><img src="{{=URL('static','images/ajax-loader.gif')}}" /></p></div>
     <button class="uk-modal-close-default" type="button" uk-close></button>

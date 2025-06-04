@@ -4,8 +4,9 @@ This will be vertical layout on very large touch screens. Therefore, the buttons
     - COMPLETE: Trace path boxes need to stack upwards, not downwards
     - COMPLETE: Search bar pop-up suggestions need to appear above search bar, not below
 - COMPLETE: Settings button can be moved to bottom left, above Tours
-    - COMPLETE: Remove some setting options: Image Sources, Search Mode, only keep color-blind friendly option, Language, Page Content
-    - Remove all the links inside Settings Information, delete irrelevant info from the modals, fix formatting
+    - COMPLETE: Remove some setting options: Terms of Use, Image Sources, Search Mode, only keep color-blind friendly option, Language, Page Content
+    - COMPLETE: Remove all the links inside Settings Information, delete irrelevant info from the modals, fix formatting
 - COMPLETE: In the pop-ups for each organism, the top header bar should be moved to the bottom, delete expand button
 - What is Tours supposed to do? It just shows up with "Tours near here" and then nothing
 - Reset to default after a couple minutes of inactivity (or have it move through the tree like it does on the homepage of the website?)
+- The "Color blind friendly" checkbox doesn't stick

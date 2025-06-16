@@ -69,7 +69,7 @@ body.loading #UI #loading_spinner {
   }
   .ui-bottomleft {
     position: fixed;
-    bottom: 0;
+    bottom: 35vh;
     left: 0;
     margin-right: 0;
   }
@@ -81,7 +81,7 @@ body.loading #UI #loading_spinner {
   }
   .ui-bottomright {
     position: fixed;
-    bottom: 0;
+    bottom: 35vh;
     right: 0;
     margin-left: 0;
   }
@@ -114,6 +114,7 @@ body.loading #UI #loading_spinner {
     overflow: hidden; /* icons shouldn't sprawl over our corners */
     background-color: white;
     margin-top: 0.5em;
+    display: inline-block;
 
     /* Hide labels, show them on a big screen & when not explicitly hidden */
     > li > .button-label { display: none; }

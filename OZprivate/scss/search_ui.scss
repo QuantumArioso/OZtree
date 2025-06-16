@@ -1,7 +1,7 @@
 @import "colour_scheme.scss";
 
 #advanced_search_toggle, .search-nav {
-    float: right;
+    float: left;
 }
 
 #advanced_search_button.dragover {
@@ -23,6 +23,7 @@
     width: 100%;
     max-height: calc(100vh - 6rem);
     overflow-y: auto;
+    z-index: 1000; /* Ensure dropdown is above other elements */
 }
 
 .search-nav .searchinput {
@@ -35,7 +36,7 @@
 
 .search-nav .searchbox input {
     box-sizing: border-box;
-    width: 16rem;
+    width: 4rem;
     border: 0;
     padding: 0.5rem 0.3rem;  /* Padding around a .ui-controls .uk-icon */
     height: 2.25rem; /* Height of a .ui-controls .uk-icon */

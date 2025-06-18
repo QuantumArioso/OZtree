@@ -1,5 +1,7 @@
 This will be vertical layout on very large touch screens. Therefore, the buttons currently at the top need to be moved so they can be accessed.
 
+- Put in database data
+- Put in images
 - We actually want to move things more to the bottom middle if possible so tall people can still reach them
     - ~~COMPLETE: Move up the reset, zoom buttons, and move Settings to the right side underneath these and revert it back to just an icon (no words next to it)~~
     - ~~COMPLETE: Move up Tours and Location (get rid of the word labels) and shift the search features to the left under these~~

@@ -242,9 +242,6 @@
 </div>
 <div id="imageinfo-modal" class="uk-modal-container" uk-modal>
     <div class="uk-modal-dialog">
-        <div class="uk-modal-header">
-            <h2 class="uk-modal-title">{{=T('Image information')}}{{if request.vars.links!='none':}}<a target="_blank" class="uk-icon-button expand-tab" uk-tooltip="pos: left" title="{{=T('Open this in a new window')}}" uk-icon="icon: expand; ratio: 0.75" style="{{if request.vars.get('no_external_links', False):}}display:none{{pass}}"></a>{{pass}}</h2>
-        </div>
         <div class="uk-modal-body popup-content iframe-container">
           <p class="no-loading-info uk-position-center">{{=T('No image specified, sorry')}}</p>
           <p class="iframe-loading-info uk-position-center" style="display:none">{{=T('Waiting for image information to load')}}<br /><img src="{{=URL('static','images/ajax-loader.gif')}}" /></p>

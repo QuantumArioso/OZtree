@@ -1,14 +1,10 @@
 This will be vertical layout on very large touch screens. Therefore, the buttons currently at the top need to be moved so they can be accessed.
 
-- Put in database data
-- Put in images
-- We actually want to move things more to the bottom middle if possible so tall people can still reach them
-    - ~~COMPLETE: Move up the reset, zoom buttons, and move Settings to the right side underneath these and revert it back to just an icon (no words next to it)~~
-    - ~~COMPLETE: Move up Tours and Location (get rid of the word labels) and shift the search features to the left under these~~
-    - The search now (that it's skinnier) doesn't display enough info to explain advanced search--what do I do about this?
-    - What to do about the Wikipedia, etc modal buttons? These don't really work on the side. Just leave them on the bottom?
-- Is the search going to work as a touchscreen? Where the suggestions come up on mousehover rn? Will they also show up if I click in it? (the advanced search options only show up when you click on them so mimic this)
-- The "Color blind friendly" checkbox doesn't stick
+- Put in IUCN data--actually probably can't do this right now, have to wait until OneZoom team figures out a solution for this (IUCN changed how the data can be used and OneZoom is no longer allowed to use it the way they were)
+    - So let's make the tree color setting green and brown
+- Some of the images are here, why not more?
+- Make search options show up on click rather than mouseover (the advanced search options show up when you click on them so mimic this)
+- The "Color blind friendly" checkbox doesn't stick (can just get rid of this if we won't have IUCN data)
 - Reset to default after a couple minutes of inactivity (or have it move through the tree like it does on the homepage of the website?)
 - Make sure images and colors and Tours work once I have the database data
     - Actually, looks like Tours maybe won't work? Delete if so
@@ -20,3 +16,7 @@ This will be vertical layout on very large touch screens. Therefore, the buttons
     - ~~COMPLETE: Remove some setting options: Terms of Use, Image Sources, Search Mode, only keep color-blind friendly option, Language, Page Content~~
     - ~~COMPLETE: Remove all the links inside Settings Information, delete irrelevant info from the modals, fix formatting~~
 - ~~COMPLETE: In the pop-ups for each organism, the top header bar should be moved to the bottom, delete expand button~~
+- ~~COMPLETE: We actually want to move things more to the bottom middle if possible so tall people can still reach them~~
+    - ~~COMPLETE: Move up the reset, zoom buttons, and move Settings to the right side underneath these and revert it back to just an icon (no words next to it)~~
+    - ~~COMPLETE: Move up Tours and Location (get rid of the word labels) and shift the search features to the left under these~~
+    - ~~COMPLETE: Just leave the Wikipedia modal buttons on the bottom~~

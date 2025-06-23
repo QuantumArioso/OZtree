@@ -1,13 +1,9 @@
 This will be vertical layout on very large touch screens. Therefore, the buttons currently at the top need to be moved so they can be accessed.
 
+- Delete Tours
 - Reset to default after a couple minutes of inactivity (or have it move through the tree like it does on the homepage of the website?)
     - Would be easiest to just make kiosk reload to this: https://localhost:8000/life/@biota=93302?otthome=%40%3D1028829#x223,y1324,w1.3060
-- Put in IUCN data--actually probably can't do this right now, have to wait until OneZoom team figures out a solution for this (IUCN changed how the data can be used and OneZoom is no longer allowed to use it the way they were)
-    - So let's make the tree color setting green and brown
-- Some of the images are here, why not more?
 - The "Color blind friendly" checkbox doesn't stick (can just get rid of this if we won't have IUCN data)
-- Make sure images and colors and Tours work once I have the database data
-    - Actually, looks like Tours maybe won't work? Delete if so
 - ~~COMPLETE: OneZoom logo top left: disable homepage link~~
 - ~~COMPLETE: Trace a path and search bar can be moved to bottom middle (users will type with pop-up on-screen keyboard)~~
     - ~~COMPLETE: Trace path boxes need to stack upwards, not downwards~~
@@ -22,3 +18,4 @@ This will be vertical layout on very large touch screens. Therefore, the buttons
     - ~~COMPLETE: Just leave the Wikipedia modal buttons on the bottom~~
 - ~~COMPLETE (it already did this): Make search options show up on click rather than mouseover (the advanced search options show up when you click on them so mimic this)~~
 - ~~COMPLETE: Remove link in image information for Open in a new page--just remove the header~~
+- ~~COMPLETE: Put in IUCN data and images--had to get a new Docker container~~

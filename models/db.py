@@ -86,6 +86,13 @@ if DALstring.startswith('mysql://'):
     )
 
     db.placeholder = "%s"
+    
+    # Ensure utf8mb4 charset for proper Unicode support
+    try:
+        db.executesql("SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci")
+        db.executesql("SET CHARACTER SET utf8mb4")
+    except:
+        pass  # Ignore errors if already set or not supported
 else:
     db = DAL(DALstring, 
         pool_size=myconf.take('db.pool_size', cast=int), 
@@ -301,7 +308,7 @@ db.define_table('ordered_nodes',
 # some taxa have no ott id, so have to be identified (in another table) by name
 db.define_table('vernacular_by_ott',
     Field('ott', type='integer', notnull=True, requires=IS_NOT_EMPTY()), # the opentree id for this taxon
-    Field('vernacular', type='string', notnull=True, length=name_length_chars), #in mySQL, need to set this to charset utf8mb4 so that all the weird unicode characters are saved correctly
+    Field('vernacular', type='string', notnull=True, length=name_length_chars, charset='utf8mb4'), #in mySQL, need to set this to charset utf8mb4 so that all the weird unicode characters are saved correctly
     Field('lang_primary', type='string', notnull=True, length=3), #the 'primary' 2  or 3 letter 'lang' code for this name (e.g. 'en', 'cmn'). See http://www.w3.org/International/articles/language-tags/
     # can be constructed from sql by 
     #sql> update vernacular_by_ott set lang_primary=substring_index(lang_full,'-',1);
@@ -315,7 +322,7 @@ db.define_table('vernacular_by_ott',
 
 db.define_table('vernacular_by_name',
     Field('name', type='string', notnull=True, length=name_length_chars, requires=IS_NOT_EMPTY()), 
-    Field('vernacular', type='string', notnull=True, length=name_length_chars), #in mySQL, need to set this to charset utf8mb4 so that all the weird unicode characters are saved correctly
+    Field('vernacular', type='string', notnull=True, length=name_length_chars, charset='utf8mb4'), #in mySQL, need to set this to charset utf8mb4 so that all the weird unicode characters are saved correctly
    Field('lang_primary', type='string', notnull=True, length=3), #the 'primary' 2  or 3 letter 'lang' code for this name (e.g. 'en', 'cmn'). See http://www.w3.org/International/articles/language-tags/
     # can be constructed from sql by 
     #sql> update vernacular_by_ott set lang_primary=substring_index(lang_full,'-',1);
@@ -357,10 +364,10 @@ db.define_table('images_by_ott',
     # sorting by confidence is equivalent to sorting by number of votes (but with ties broken by number
     # of 5* votes, then 4*, etc etc. Hacky. But clever.
 
-    Field('rights', type='text'), #in mySQL, need to set this to charset utf8mb4 so that all the weird unicode characters are saved correctly
+    Field('rights', type='text', charset='utf8mb4'), #in mySQL, need to set this to charset utf8mb4 so that all the weird unicode characters are saved correctly
     # e.g. "© Scott Loarie". Can be of long length as we don't need to index this
     
-    Field('licence', type='string', length=name_length_chars), #in mySQL, need to set this to charset utf8mb4 so that all the weird unicode characters are saved correctly
+    Field('licence', type='string', length=name_length_chars, charset='utf8mb4'), #in mySQL, need to set this to charset utf8mb4 so that all the weird unicode characters are saved correctly
     # e.g. "http://creativecommons.org/licenses/by/2.0/". We might need to index this
     
     Field('updated', type='datetime', requires=IS_EMPTY_OR(IS_DATETIME())),
@@ -380,8 +387,8 @@ db.define_table('images_by_name',
     Field('url', type='text'),
     Field('rating', type='integer'), 
     Field('rating_confidence', type='bigint'), 
-    Field('rights', type='text'), #in mySQL, need to set this to charset utf8mb4 so that all the weird unicode characters are saved correctly
-    Field('licence', type='string', length=name_length_chars), #in mySQL, need to set this to charset utf8mb4 so that all the weird unicode characters are saved correctly
+    Field('rights', type='text', charset='utf8mb4'), #in mySQL, need to set this to charset utf8mb4 so that all the weird unicode characters are saved correctly
+    Field('licence', type='string', length=name_length_chars, charset='utf8mb4'), #in mySQL, need to set this to charset utf8mb4 so that all the weird unicode characters are saved correctly
     Field('updated', type='datetime', requires=IS_EMPTY_OR(IS_DATETIME())),
     *[Field('{}best_{}'.format(prefix,suffix), type=boolean, notnull=True) for suffix in image_status_labels for prefix in ("","overall_")],
     format = '%(name)s')
@@ -467,19 +474,19 @@ db.define_table('reservations',
     # The reservations.username field is optional but needed if the user is to have a
     # "public" page of all their sponsorships 
     # NB: Ideally the default of this field would be None, not "" - https://github.com/OneZoom/OZtree/issues/645
-    Field('e_mail', type='string', length=200, requires=IS_EMPTY_OR(IS_EMAIL())),
-    Field('twitter_name', type='text'),
+    Field('e_mail', type='string', length=200, charset='utf8mb4', requires=IS_EMPTY_OR(IS_EMAIL())),
+    Field('twitter_name', type='text', charset='utf8mb4'),
     Field('allow_contact', type=boolean, default=False),
     # in case they don't want to log in to process this.            
     Field('user_sponsor_lang', type='string', length=30),
     # in case they don't want to log in to process this.
     Field('user_sponsor_kind', type='string', length=4, requires=IS_EMPTY_OR(IS_IN_SET(['by','for']))),
     # self explanatory for sponsorship kind 'by' or 'for' a person. If the 
-    Field('user_sponsor_name', type='string', length=40, requires=IS_EMPTY_OR(IS_LENGTH(minsize=1,maxsize=30))),
+    Field('user_sponsor_name', type='string', length=40, charset='utf8mb4', requires=IS_EMPTY_OR(IS_LENGTH(minsize=1,maxsize=30))),
     # name of person as appears on leaf. Needs to be verified
     Field('user_donor_title', type='string', length=40, requires=IS_EMPTY_OR(IS_LENGTH(minsize=1,maxsize=30))),
     # title of donor (Mr, Mrs, Dr, etc - needed for giftaid). . 
-    Field('user_donor_name', type='string', length=40, requires=IS_EMPTY_OR(IS_LENGTH(minsize=1,maxsize=30))),
+    Field('user_donor_name', type='string', length=40, charset='utf8mb4', requires=IS_EMPTY_OR(IS_LENGTH(minsize=1,maxsize=30))),
     # name of donor (different to user_sponsor_name if sponsored for someone). 
     Field('user_addr_house', type='text', writable=True, length=40, requires=IS_EMPTY_OR(IS_LENGTH(minsize=1,maxsize=40))),
     # house name or number, or full address for non-UK residents. Needed for giftaid
@@ -488,7 +495,7 @@ db.define_table('reservations',
     Field('user_donor_hide', type=boolean, default=False),
     # True if the user explicitly requested we hide acknowledgment on donors page / personal page
     # False if they didn't check a box, NULL if they haven't been asked yet.
-    Field('user_more_info', type='string', length=40, requires=IS_EMPTY_OR(IS_LENGTH(maxsize=30))), 
+    Field('user_more_info', type='string', length=40, charset='utf8mb4', requires=IS_EMPTY_OR(IS_LENGTH(maxsize=30))), 
     # optional extra sponsorship text which could be shown on the leaf if there's enough space
     Field('user_nondefault_image', type='integer'),
     #has the user chosen a non-default image? None if no img or the already downloaded OZ
@@ -508,7 +515,7 @@ db.define_table('reservations',
     Field('user_paid', type='double', requires=IS_EMPTY_OR(IS_DECIMAL_IN_RANGE(0,1e100))), 
     # The amount (in pounds) the user promised to pay for this OTTID
     # Set by user before paypal trip, validated to be >= asking_price (See valid_spons).
-    Field('user_message_OZ', type='text', requires=(IS_LENGTH(maxsize=250))),
+    Field('user_message_OZ', type='text', charset='utf8mb4', requires=(IS_LENGTH(maxsize=250))),
     # message for OZ e.g. to show on funding website or to request converstaion about url etc.
     Field('sponsorship_story', type='text', requires=(IS_LENGTH(maxsize=1000))),
     # The story behind .
@@ -538,13 +545,13 @@ db.define_table('reservations',
     # a verified copy of what's in the sponsor table.
     Field('verified_kind', type='string', length=4, requires=IS_EMPTY_OR(IS_IN_SET(['by','for']))),
     # matches 'user_sponsor_kind'
-    Field('verified_name', type='string', length=40, requires=IS_EMPTY_OR(IS_LENGTH(minsize=1,maxsize=30)), widget=SQLFORM.widgets.text.widget), 
+    Field('verified_name', type='string', length=40, charset='utf8mb4', requires=IS_EMPTY_OR(IS_LENGTH(minsize=1,maxsize=30)), widget=SQLFORM.widgets.text.widget), 
     # matches 'user_sponsor_name'
     Field('verified_donor_title', type='string', length=40, requires=IS_EMPTY_OR(IS_LENGTH(minsize=1,maxsize=30))),
     # matches 'user_donor_title'
-    Field('verified_donor_name', type='string', length=40, requires=IS_EMPTY_OR(IS_LENGTH(minsize=1,maxsize=30))),
+    Field('verified_donor_name', type='string', length=40, charset='utf8mb4', requires=IS_EMPTY_OR(IS_LENGTH(minsize=1,maxsize=30))),
     # matches 'user_donor_name'
-    Field('verified_more_info', type='string', length=40, requires=IS_EMPTY_OR(IS_LENGTH(maxsize=30)), widget=SQLFORM.widgets.text.widget), 
+    Field('verified_more_info', type='string', length=40, charset='utf8mb4', requires=IS_EMPTY_OR(IS_LENGTH(maxsize=30)), widget=SQLFORM.widgets.text.widget), 
     # matches 'user_more_info'
     Field('verified_preferred_image', type='integer', requires=IS_EMPTY_OR(IS_INT_IN_RANGE(-1e100,1e100))), #old, to be deleted
     Field('verified_preferred_image_src', type='integer', requires=IS_EMPTY_OR(IS_INT_IN_RANGE(0,1000))),

@@ -25,9 +25,6 @@
           <li><a href="#about-modal" uk-toggle><span uk-icon="icon: expand"></span>{{=T('About OneZoom')}}</a></li>
           <li><a href="#datasources-modal" uk-toggle><span uk-icon="icon: expand"></span>{{=T('Data sources')}}</a></li>
 
-          <li class="uk-nav-header">{{=T("Colors")}}</li>
-          <li><input type="checkbox" id="CBF" name="CBF" unchecked> <label for="CBF">Color blind friendly</label></li>
-
           <li class="uk-nav-header">{{=T('Visualisation Shape')}}</li>
           <li class="treeswitch"><select id="treeshape" class="uk-select uk-form-small">
             {{include 'settings_values/vis.load'}}

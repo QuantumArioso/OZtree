@@ -47,6 +47,9 @@ T.is_writable = is_testing and myconf.get('general.allow_translation_string_writ
 if request.vars.lang:
     T.force(request.vars.lang)
 
+# Global setting to disable all external links (useful for kiosk/museum displays)
+disable_external_links = myconf.get('ui.disable_external_links', False)
+
 try:
     thumb_base_url = myconf.take('images.url_base')
     if thumb_base_url.startswith("//"):
@@ -130,6 +133,18 @@ response.headers['Server'] = 'n/a'
 #########################################################################
 
 from gluon.tools import Auth, Service, PluginManager
+
+# Make the disable setting available globally
+current.disable_external_links = disable_external_links
+
+# Import and setup link utilities for disabling external links if needed
+if disable_external_links:
+    try:
+        from modules import link_utils
+        # Make link utilities available globally
+        current.link_utils = link_utils
+    except ImportError:
+        pass
 
 ## Configure session handling: http://web2py.com/books/default/chapter/29/13/deployment-recipes#Sessions-in-database
 session.connect(request, response, db)

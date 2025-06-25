@@ -90,3 +90,11 @@ sponsorship_renew_discount = 0.2
 ; -> "Domains", configure your instance domain
 ; -> "Licences", copy/paste the hex key
 ;civicuk_api_key = 123abc123abc123abc123abc123abc123abc123a
+
+[ui]
+; * disable_external_links: Set to 1 to disable all external links 
+;   (useful for kiosk/museum displays). Default is 0.
+; * external_link_warning: Set to 1 to show a warning before opening external links.
+;   Only used if disable_external_links is 0. Default is 0.
+disable_external_links = 0
+external_link_warning = 0

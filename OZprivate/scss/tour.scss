@@ -212,14 +212,14 @@
     }
 
     .handle { display: block; }
-    .tour_exit.button { display: none; }
-    @media (orientation: landscape) {
-      @media (min-width: 1000px) {
-        /* Desktop/tablet landscape mode: Reveal × */
-        .handle { display: none; }
-        .tour_exit.button { display: block; }
-      }
-    }
+    .tour_exit.button { display: block; }
+    // @media (orientation: landscape) {
+    //   @media (min-width: 1000px) {
+    //     /* Desktop/tablet landscape mode: Reveal × */
+    //     .handle { display: none; }
+    //     .tour_exit.button { display: block; }
+    //   }
+    // }
   }
 
   .footer {

@@ -1,7 +1,5 @@
 This will be vertical layout on very large touch screens. Therefore, the buttons currently at the top need to be moved so they can be accessed.
 
-- Tours
-    - Get rid of "Share" button in the tour
 - Links should not be clickable (idk if this is a code thing or kiosk-mode thing)
 - Reset to default after a couple minutes of inactivity (or have it move through the tree like it does on the homepage of the website?)
     - Would be easiest to just make kiosk reload to this: https://localhost:8000/life/@biota=93302?otthome=%40%3D1028829#x223,y1324,w1.3060
@@ -20,3 +18,6 @@ This will be vertical layout on very large touch screens. Therefore, the buttons
 - ~~COMPLETE (it already did this): Make search options show up on click rather than mouseover (the advanced search options show up when you click on them so mimic this)~~
 - ~~COMPLETE: Remove link in image information for Open in a new page--just remove the header~~
 - ~~COMPLETE: Put in IUCN data and images--had to get a new Docker container~~
+- ~~COMPLETE: Tours~~
+    - ~~COMPLETE: Get rid of "Share" button in the tour~~
+    - ~~COMPLETE: There is an x but it disappears in the vertical view--bring this back~~

@@ -188,8 +188,8 @@ def linkouts(is_leaf, ott=None, id=None, sponsorship_urls=[]):
                   URL('tour', 'list', scheme=True, host=True, extension='html', vars=dict(tours=",".join(tours), popup=1)),
                   URL('tour', 'list', scheme=True, host=True, extension='html', vars=dict(tours=",".join(tours))),
                 ]
-        if sponsorship_urls: #always return a sponsorship url, even if e.g. invalid or ott missing
-            urls['ozspons'] = sponsorship_urls
+        # if sponsorship_urls: #always return a sponsorship url, even if e.g. invalid or ott missing
+        #     urls['ozspons'] = sponsorship_urls
     except Exception as e:
         if is_testing:
             raise e

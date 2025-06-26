@@ -130,43 +130,43 @@ class LeafLayoutBase {
   }
 
   get_sponsor_text(node) {
-    let sponsor_text, sponsor_extra, sponsored;
-    if (node.sponsor_name) {
-      sponsored = 1; // to get rid of sponsor link
-      if (node.sponsor_name=="leaf_sponsored") {
-        sponsor_text = OZstrings["leaf_sponsored"]
-        sponsor_extra = OZstrings["leaf_sponsored_extra"]
-      } else {
-        //There is sponsorship text
-        sponsor_text = node.sponsor_kind ? OZstrings["Sponsored " + node.sponsor_kind] + " "+ node.sponsor_name : node.sponsor_name;
-        if (node.sponsor_extra) {
-          // only include ',' in sponsorship text when first character is not a (
-          let tempSponsorExtra = node.sponsor_extra;
-          if (tempSponsorExtra.charAt(0)=="(") {
-            sponsor_extra = " " + tempSponsorExtra;
-          } else {
-            sponsor_extra = ", " + tempSponsorExtra;
-          }
-        } else {
-          sponsor_extra = "";
-        }
-      }
-      sponsor_text = sponsor_text.toUpperCase();
-      sponsor_extra = sponsor_extra.toUpperCase()
-    } else {
-      // find out if there is an open tree ID and a space in the species name
-      if (node.ott && node.ott > 0 && node.latin_name) {
-        // I Put some temporary code here to produce sponsorship scenarios for testing.
-        let pseudor = Math.abs(Math.floor(node.arca*111232425)%(OZstrings['sponsor_text']['leaf'].length));
-        sponsor_text  = OZstrings['sponsor_text']['leaf'][pseudor][0];
-        sponsor_extra = OZstrings['sponsor_text']['leaf'][pseudor][1];
-      } else {
-        sponsored = 1; // to get rid of sponsor link
-        sponsor_extra = "";
-        sponsor_text = " "; // display nothing
-      }
-    }
-    return [sponsor_text, sponsor_extra, sponsored];
+    // let sponsor_text, sponsor_extra, sponsored;
+    // if (node.sponsor_name) {
+    //   sponsored = 1; // to get rid of sponsor link
+    //   if (node.sponsor_name=="leaf_sponsored") {
+    //     sponsor_text = OZstrings["leaf_sponsored"]
+    //     sponsor_extra = OZstrings["leaf_sponsored_extra"]
+    //   } else {
+    //     //There is sponsorship text
+    //     sponsor_text = node.sponsor_kind ? OZstrings["Sponsored " + node.sponsor_kind] + " "+ node.sponsor_name : node.sponsor_name;
+    //     if (node.sponsor_extra) {
+    //       // only include ',' in sponsorship text when first character is not a (
+    //       let tempSponsorExtra = node.sponsor_extra;
+    //       if (tempSponsorExtra.charAt(0)=="(") {
+    //         sponsor_extra = " " + tempSponsorExtra;
+    //       } else {
+    //         sponsor_extra = ", " + tempSponsorExtra;
+    //       }
+    //     } else {
+    //       sponsor_extra = "";
+    //     }
+    //   }
+    //   sponsor_text = sponsor_text.toUpperCase();
+    //   sponsor_extra = sponsor_extra.toUpperCase()
+    // } else {
+    //   // find out if there is an open tree ID and a space in the species name
+    //   if (node.ott && node.ott > 0 && node.latin_name) {
+    //     // I Put some temporary code here to produce sponsorship scenarios for testing.
+    //     let pseudor = Math.abs(Math.floor(node.arca*111232425)%(OZstrings['sponsor_text']['leaf'].length));
+    //     sponsor_text  = OZstrings['sponsor_text']['leaf'][pseudor][0];
+    //     sponsor_extra = OZstrings['sponsor_text']['leaf'][pseudor][1];
+    //   } else {
+    //     sponsored = 1; // to get rid of sponsor link
+    //     sponsor_extra = "";
+    //     sponsor_text = " "; // display nothing
+    //   }
+    // }
+    return ["", "", ""];
   }
 
   get_fullleaf_r(node) {

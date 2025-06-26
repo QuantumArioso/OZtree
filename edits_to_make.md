@@ -1,3 +1,5 @@
+# Bean Museum Edits
+
 This will be vertical layout on very large touch screens. Therefore, the buttons currently at the top need to be moved so they can be accessed.
 
 - Links should not be clickable (idk if this is a code thing or kiosk-mode thing)
@@ -21,3 +23,4 @@ This will be vertical layout on very large touch screens. Therefore, the buttons
 - ~~COMPLETE: Tours~~
     - ~~COMPLETE: Get rid of "Share" button in the tour~~
     - ~~COMPLETE: There is an x but it disappears in the vertical view--bring this back~~
+- ~~COMPLETE: Remove sponsorship pages and text, since these are inaccurate~~

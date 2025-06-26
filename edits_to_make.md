@@ -2,7 +2,6 @@
 
 This will be vertical layout on very large touch screens. Therefore, the buttons currently at the top need to be moved so they can be accessed.
 
-- Links should not be clickable (idk if this is a code thing or kiosk-mode thing)
 - Reset to default after a couple minutes of inactivity (or have it move through the tree like it does on the homepage of the website?)
     - Would probably be easiest to just make kiosk reload to this: https://localhost:8000/life/@biota=93302?otthome=%40%3D1028829#x223,y1324,w1.3060
 - ~~COMPLETE: OneZoom logo top left: disable homepage link~~
@@ -24,3 +23,4 @@ This will be vertical layout on very large touch screens. Therefore, the buttons
     - ~~COMPLETE: Get rid of "Share" button in the tour~~
     - ~~COMPLETE: There is an x but it disappears in the vertical view--bring this back~~
 - ~~COMPLETE: Remove sponsorship pages and text, since these are inaccurate~~
+- ~~COMPLETE: Links should not be clickable (including tours YouTube videos)~~

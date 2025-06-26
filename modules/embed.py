@@ -83,17 +83,23 @@ def media_embed(url, defaults=dict()):
 
     m = re.fullmatch(r'https://www.youtube.com/embed/(.+)', opts['url'])
     if m:
-        opts['qs_continuation'] = '&' if "?" in url else "?"
+        opts['qs_continuation'] = '&' if "?" in opts['url'] else "?"
         opts['origin'] = '%s://%s' % (request.env.wsgi_url_scheme, request.env.http_host)
+        
+        # Add kiosk mode parameters if external links are disabled
+        kiosk_params = ""
+        if hasattr(current, 'disable_external_links') and current.disable_external_links:
+            kiosk_params = "&rel=0&showinfo=0&iv_load_policy=3&modestbranding=1&disablekb=1&controls=0&autoplay=1"
+        
         return """<div class="embed-video{klass}"><iframe
             class="embed-youtube"
             type="text/html"
-            src="{url}{qs_continuation}enablejsapi=1&playsinline=1&origin={origin}"
+            src="{url}{qs_continuation}enablejsapi=1&playsinline=1&origin={origin}{kiosk_params}"
             frameborder="0"
             allow="autoplay; fullscreen"
             allowfullscreen
             {element_data}
-        ></iframe></div>""".format(**opts)
+        ></iframe></div>""".format(kiosk_params=kiosk_params, **opts)
 
     m = re.fullmatch(r'https://player.vimeo.com/video/(.+)', opts['url'])
     if m:

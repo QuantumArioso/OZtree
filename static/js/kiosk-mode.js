@@ -14,6 +14,53 @@
         return; // External links are allowed, do nothing
     }
     
+    // Global options variable
+    var options = {
+        enableNotification: true,
+        notificationText: 'External links are disabled in kiosk mode',
+        greyOutLinks: true,
+        removeTargetBlank: true,
+        disableIframeLinks: false
+    };
+    
+    /**
+     * Show notification to user
+     */
+    function showNotification(message) {
+        if (!options.enableNotification) return;
+        
+        // Create notification element if it doesn't exist
+        var notification = document.getElementById('kiosk-notification');
+        if (!notification) {
+            notification = document.createElement('div');
+            notification.id = 'kiosk-notification';
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #f44336;
+                color: white;
+                padding: 12px 16px;
+                border-radius: 4px;
+                z-index: 10000;
+                font-family: Arial, sans-serif;
+                font-size: 14px;
+                max-width: 300px;
+                opacity: 0;
+                transition: opacity 0.3s;
+            `;
+            document.body.appendChild(notification);
+        }
+        
+        notification.textContent = message || options.notificationText;
+        notification.style.opacity = '1';
+        
+        // Auto-hide after 3 seconds
+        setTimeout(function() {
+            notification.style.opacity = '0';
+        }, 3000);
+    }
+    
     /**
      * Check if a URL is external
      */
@@ -30,6 +77,15 @@
             if (url.indexOf(currentHost) !== -1) {
                 return false;
             }
+            
+            // For kiosk mode: OneZoom tour assets should be disabled but not grayed out
+            // So we treat them as "external" to disable the links, but handle styling specially
+            
+            // Allow other OneZoom domains (like images.onezoom.org for the image server)
+            if (url.indexOf('images.onezoom.org') !== -1) {
+                return false;
+            }
+            
             return true;
         }
         
@@ -60,11 +116,19 @@
         // Remove href to make it non-clickable
         element.removeAttribute('href');
         
-        // Add styling to show it's disabled
+        // Add styling to show it's disabled, but preserve tour image appearance
         element.classList.add('disabled-external-link');
-        element.style.color = '#999';
-        element.style.cursor = 'default';
-        element.style.textDecoration = 'none';
+        
+        // Only apply gray styling to non-tour content
+        if (!element.classList.contains('embed-image') && !element.classList.contains('copyright')) {
+            element.style.color = '#999';
+            element.style.cursor = 'default';
+            element.style.textDecoration = 'none';
+        } else {
+            // For tour images, just change cursor and prevent default styling
+            element.style.cursor = 'not-allowed';
+            // Don't change color or text decoration for tour content
+        }
         
         // Add title to explain why it's disabled
         element.title = 'External links are disabled in kiosk mode';
@@ -123,6 +187,19 @@
                                     disableExternalLink(link);
                                 }
                             }
+                            
+                            // Check for YouTube embeds within the added node (for tour content)
+                            if (options.disableIframeLinks) {
+                                var youtubeIframes = node.querySelectorAll ? node.querySelectorAll('iframe.embed-youtube') : [];
+                                for (var i = 0; i < youtubeIframes.length; i++) {
+                                    disableYouTubeEmbed(youtubeIframes[i]);
+                                }
+                                
+                                // Also check if the node itself is a YouTube iframe
+                                if (node.tagName === 'IFRAME' && node.classList.contains('embed-youtube')) {
+                                    disableYouTubeEmbed(node);
+                                }
+                            }
                         }
                     });
                 }
@@ -155,6 +232,12 @@
         
         const iframes = document.querySelectorAll('iframe');
         iframes.forEach(function(iframe) {
+            // Special handling for YouTube embeds
+            if (iframe.classList.contains('embed-youtube')) {
+                disableYouTubeEmbed(iframe);
+                return;
+            }
+            
             try {
                 iframe.addEventListener('load', function() {
                     try {
@@ -193,6 +276,88 @@
                 console.log('Error setting up iframe link disabling:', e);
             }
         });
+    }
+    
+    // Special handling for YouTube embeds
+    function disableYouTubeEmbed(iframe) {
+        // Create a comprehensive overlay to block all YouTube interactions
+        addComprehensiveYouTubeOverlay(iframe);
+        
+        // Also try to modify the URL to disable YouTube features and controls
+        try {
+            let src = iframe.src;
+            if (src.includes('youtube.com/embed/')) {
+                const url = new URL(src);
+                
+                // Add parameters to disable YouTube features that link externally
+                url.searchParams.set('rel', '0');          // Don't show related videos
+                url.searchParams.set('showinfo', '0');     // Don't show video info
+                url.searchParams.set('iv_load_policy', '3'); // Don't show annotations
+                url.searchParams.set('modestbranding', '1'); // Minimal YouTube branding
+                url.searchParams.set('disablekb', '1');     // Disable keyboard controls
+                url.searchParams.set('fs', '0');           // Disable fullscreen
+                url.searchParams.set('controls', '0');     // Completely disable controls (no pause/play/seek)
+                url.searchParams.set('autoplay', '1');     // Auto-start the video
+                
+                // Update the iframe source
+                iframe.src = url.toString();
+            }
+        } catch(e) {
+            console.log('Could not modify YouTube URL:', e);
+        }
+    }
+    
+    // Add comprehensive overlay for YouTube to prevent ALL external navigation
+    function addComprehensiveYouTubeOverlay(iframe) {
+        if (iframe.youtubeOverlayAdded) return; // Prevent duplicate overlays
+        
+        // Wait for iframe to load before adding overlay
+        setTimeout(() => {
+            const container = iframe.closest('.embed-video') || iframe.parentElement;
+            if (!container) return;
+            
+            // Make container relatively positioned
+            container.style.position = 'relative';
+            container.style.overflow = 'hidden';
+            
+            // Create a single full overlay since controls are disabled
+            const overlay = document.createElement('div');
+            overlay.className = 'youtube-kiosk-full-overlay';
+            overlay.style.cssText = `
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: 1001;
+                pointer-events: auto;
+                background: transparent;
+                cursor: not-allowed;
+            `;
+            
+            // Add click handler to show notification
+            overlay.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                showNotification('Video interaction is disabled in kiosk mode');
+                return false;
+            });
+            
+            // Block all mouse events
+            ['mousedown', 'mouseup', 'mousemove', 'contextmenu'].forEach(eventType => {
+                overlay.addEventListener(eventType, function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return false;
+                });
+            });
+            
+            // Add overlay to container
+            container.appendChild(overlay);
+            iframe.youtubeOverlayAdded = true;
+            
+            console.log('YouTube full overlay added for kiosk mode - no interaction allowed');
+        }, 2000); // Give YouTube time to load
     }
     
     // Add overlay to prevent interaction with cross-origin iframes
@@ -258,7 +423,18 @@
     // Initialize when script loads
     init();
     
-    // Expose utilities for manual use
+    // Expose the main KioskMode object globally
+    window.KioskMode = {
+        init: init,
+        isExternalUrl: isExternalUrl,
+        disableExternalLink: disableExternalLink,
+        processAllLinks: processAllLinks,
+        disableYouTubeEmbed: disableYouTubeEmbed,
+        disableIframeLinks: disableIframeLinks,
+        addComprehensiveYouTubeOverlay: addComprehensiveYouTubeOverlay
+    };
+    
+    // Also expose utilities for manual use (backwards compatibility)
     window.OneZoomKioskMode = {
         isExternalUrl: isExternalUrl,
         disableExternalLink: disableExternalLink,

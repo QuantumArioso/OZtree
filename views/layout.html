@@ -241,6 +241,21 @@
 
     <!-- Share ============================y============
     <script src="{{=URL('static','js/share.js',vars=dict(static=URL('static','images')))}}"></script> -->
+    {{if current.disable_external_links:}}
+    <script src="{{=URL('static','js/kiosk-mode.js')}}"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize kiosk mode with OneZoom specific settings
+        KioskMode.init({
+            enableNotification: true,
+            notificationText: 'External links are disabled in kiosk mode',
+            greyOutLinks: true,
+            removeTargetBlank: true,
+            disableIframeLinks: true  // Enable iframe link disabling for YouTube embeds
+        });
+    });
+    </script>
+    {{pass}}
     {{block page_js}}{{end page_js}}
   </body>
 </html>

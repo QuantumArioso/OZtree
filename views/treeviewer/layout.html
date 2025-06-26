@@ -32,6 +32,10 @@ request.vars.links = setup_params['UI_layer']['vars'].get('links')
   <script src="{{=URL('static','uikit-3/js/uikit-icons.min.js')}}"></script>
   <link rel="stylesheet" type="text/css" href="{{=URL('static', 'css/tree.css')}}" />
   <link rel="stylesheet" type="text/css" href="{{=URL('static', 'css/OZ_shared.css')}}" />
+  {{if current.disable_external_links:}}
+  <link rel="stylesheet" type="text/css" href="{{=URL('static', 'css/kiosk-mode.css')}}" />
+  <script>window.OZ_DISABLE_EXTERNAL_LINKS = true;</script>
+  {{pass}}
   {{if is_testing:}}<script>window.is_testing = true;</script>{{pass}}
   <!-- do not change the next line in any way. The exact format is used for partial installs -->
   <div id="OZ_js_modules" data-include="../static/OZTreeModule/dist/OZentry.html ../static/OZTreeModule/dist/OZui.html">
@@ -1019,5 +1023,19 @@ $(document).ready(function() {    /* Mainly a place to attach JS event handlers 
 })
 
   </script>
+  {{if current.disable_external_links:}}
+  <script src="{{=URL('static','js/kiosk-mode.js')}}"></script>
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+      // Initialize kiosk mode with OneZoom specific settings for tours
+      window.KioskMode.init({
+          enableNotification: false, // Tours should handle their own notifications
+          greyOutLinks: true,
+          removeTargetBlank: true,
+          disableIframeLinks: true
+      });
+  });
+  </script>
+  {{pass}}
 </body>
 </html>

@@ -143,6 +143,10 @@ def linkouts(is_leaf, ott=None, id=None, sponsorship_urls=[]):
     urls = {} #for a list of the keys the UI expect to be returned (e.g. wiki, eol, ozspons) see UI_layer() in treeviewer.py
     name = None
     errors = []
+    
+    # Check if external links should be disabled (kiosk mode)
+    disable_external_links = current.disable_external_links if hasattr(current, 'disable_external_links') else False
+    
     try:
         core_table = "ordered_leaves" if is_leaf else "ordered_nodes"
         if id is not None:
@@ -167,18 +171,22 @@ def linkouts(is_leaf, ott=None, id=None, sponsorship_urls=[]):
             except:
                 lang_primary ='en'
             wikilang = lang_primary if lang_primary in wikiflags else 'en'
+            
+            # Add kiosk mode parameter to external URLs if needed
+            kiosk_vars = {'popup': '3'} if disable_external_links else {}
+            
             if row[core_table].ott:
                 urls['opentree'] = opentree_url(row[core_table].ott)
             if row[core_table].wikidata:
-                urls['wiki'] = wikipedia_urls(row[core_table].wikidata, row[core_table].wikipedia_lang_flag, wikilang, is_leaf, name, allow_namesearch=False if request.vars.no_wikisearch else True)
+                urls['wiki'] = wikipedia_urls(row[core_table].wikidata, row[core_table].wikipedia_lang_flag, wikilang, is_leaf, name, allow_namesearch=False if request.vars.no_wikisearch else True, kiosk_mode=disable_external_links)
             if row[core_table].eol:
-                urls['eol']  = eol_url(row[core_table].eol, row[core_table].ott)
+                urls['eol']  = eol_url(row[core_table].eol, row[core_table].ott, kiosk_mode=disable_external_links)
             if row[core_table].ncbi:
                 urls['ncbi'] = ncbi_url(row[core_table].ncbi)
             if row.iucn.iucn:
-                urls['iucn'] = iucn_url(row.iucn.iucn)
+                urls['iucn'] = iucn_url(row.iucn.iucn, kiosk_mode=disable_external_links)
             if row[core_table].gbif:
-                urls['gbif'] = gbif_url(row[core_table].gbif, is_leaf)
+                urls['gbif'] = gbif_url(row[core_table].gbif, is_leaf, kiosk_mode=disable_external_links)
             if row[core_table].ipni:
                 urls['powo'] = powo_url(row[core_table].ipni) #would alter here if ipni availability calculated on the fly
 
@@ -317,21 +325,27 @@ def wikidata_url(Qid):
     except:
         raise HTTP(400,"No valid wikidata Q id provided")
 
-def iucn_url(IUCNid):
+def iucn_url(IUCNid, kiosk_mode=False):
     """
     IUCN has no https site
     """
     try:
         #we only have a single url to return as we haven't bothered to make a local IUCN page
         #see https://github.com/OneZoom/OZtree/issues/67
-        IUCNURLarray = [URL('tree','IUCN_OZpage.html',vars=dict(iucnid=int(IUCNid))),"http://www.iucnredlist.org/details/{}/0".format(int(IUCNid))]
+        if kiosk_mode:
+            # In kiosk mode, pass popup=3 to disable external links within IUCN page
+            IUCNURLarray = [URL('tree','IUCN_OZpage.html',vars=dict(iucnid=int(IUCNid), popup='3')),"http://www.iucnredlist.org/details/{}/0".format(int(IUCNid))]
+        else:
+            IUCNURLarray = [URL('tree','IUCN_OZpage.html',vars=dict(iucnid=int(IUCNid))),"http://www.iucnredlist.org/details/{}/0".format(int(IUCNid))]
         return(IUCNURLarray)
     except:
         raise HTTP(400,"No valid IUCN id provided")
 
-def gbif_url(GBIFid, is_leaf):
+def gbif_url(GBIFid, is_leaf, kiosk_mode=False):
     try:
         var = {'popup':request.vars.popup} if 'popup' in request.vars else {}
+        if kiosk_mode:
+            var['popup'] = '3'
         return [
             URL('tree','GBIF_OZpage', vars=dict(gbif=int(GBIFid), leaf=1 if is_leaf else 0, **var), scheme=True, host=True, extension=False),
             "//www.gbif.org/species/" + str(int(GBIFid)),
@@ -364,18 +378,24 @@ def ncbi_url(NCBIid):
     except:
         raise HTTP(400,"No valid NCBI id provided")
 
-def eol_url(EOLid, OTTid):
+def eol_url(EOLid, OTTid, kiosk_mode=False):
     """
     Return a OneZoom URL that redirects to the true EoL url. 
     The returned url should be one that logs the EoL visit on OneZoom
     so we can check if images or common names may have been updated.
     """
     try:
-        return [URL('tree','eol_page_ID', args=[int(EOLid), int(OTTid)], scheme=True, host=True), "//eol.org/pages/{}".format(int(EOLid))]
+        # In kiosk mode, we could redirect to a local EOL viewer page that disables external links
+        if kiosk_mode:
+            # For now, still allow EOL but with popup=3 to disable links within the page
+            eol_vars = {'popup': '3'}
+            return [URL('tree','eol_page_ID', args=[int(EOLid), int(OTTid)], vars=eol_vars, scheme=True, host=True), "//eol.org/pages/{}".format(int(EOLid))]
+        else:
+            return [URL('tree','eol_page_ID', args=[int(EOLid), int(OTTid)], scheme=True, host=True), "//eol.org/pages/{}".format(int(EOLid))]
     except:
         raise HTTP(400,"No valid EOL id provided")
 
-def wikipedia_urls(Qid, wikipedia_lang_flag, requested_wikilang, is_leaf, name, allow_namesearch=True):
+def wikipedia_urls(Qid, wikipedia_lang_flag, requested_wikilang, is_leaf, name, allow_namesearch=True, kiosk_mode=False):
     """
     This is more complex as a wikipedia page is found through its wikidata Qid, and for a given Qid,
     a wikipedia page may not exist for the requested language - this is stored in the bitfield 
@@ -390,6 +410,11 @@ def wikipedia_urls(Qid, wikipedia_lang_flag, requested_wikilang, is_leaf, name, 
         if requested_wikilang.isalnum():
             name = name if allow_namesearch else ""
             var = {'popup':request.vars.popup} if 'popup' in request.vars else {}
+            
+            # Add popup=3 for kiosk mode to disable links within the wikipedia page
+            if kiosk_mode:
+                var['popup'] = '3'
+                
             OZ_wikipage = URL('tree','wikipedia_OZpage', vars=dict(Q=int(Qid), wlang=requested_wikilang, name=name, leaf=1 if is_leaf else 0, **var), scheme=True, host=True, extension = False)
             try:
                 if (int(wikipedia_lang_flag) & int(2**wikiflags[requested_wikilang])):

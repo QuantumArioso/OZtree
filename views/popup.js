@@ -56,6 +56,59 @@ if request.vars.popup:
       #remove external A href links
       web2py_A = A
       def A(*args, **kwargs): return web2py_A(*args, **kwargs) if '_target' not in kwargs and ('_href' not in kwargs or kwargs['_href'].startswith(".") or (kwargs['_href'].startswith("/") and not kwargs['_href'].startswith("//"))) else SPAN(*args, _style="text-decoration: underline;", **kwargs)
+      
+      # Add JavaScript to disable links within iframes (for external content like Wikipedia)
+}}
+/* Kiosk mode: disable external links within iframes */
+function disableLinksInIframes() {
+    document.addEventListener('DOMContentLoaded', function() {
+        // Find all iframes and try to disable links within them
+        var iframes = document.querySelectorAll('iframe');
+        iframes.forEach(function(iframe) {
+            try {
+                iframe.addEventListener('load', function() {
+                    try {
+                        var iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                        if (iframeDoc) {
+                            // Disable all links within the iframe
+                            var links = iframeDoc.querySelectorAll('a');
+                            links.forEach(function(link) {
+                                link.addEventListener('click', function(e) {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    return false;
+                                });
+                                link.style.color = '#999';
+                                link.style.textDecoration = 'line-through';
+                                link.style.cursor = 'not-allowed';
+                            });
+                            
+                            // Also disable form submissions
+                            var forms = iframeDoc.querySelectorAll('form');
+                            forms.forEach(function(form) {
+                                form.addEventListener('submit', function(e) {
+                                    e.preventDefault();
+                                    return false;
+                                });
+                            });
+                        }
+                    } catch(e) {
+                        // Cross-origin iframe - can't access content
+                        // This will happen with external sites like Wikipedia
+                        console.log('Cannot access iframe content (cross-origin):', e);
+                    }
+                });
+            } catch(e) {
+                console.log('Error setting up iframe link disabling:', e);
+            }
+        });
+    });
+}
+
+// Call the function to set up iframe link disabling
+disableLinksInIframes();
+
+{{
     elif request.vars.popup=='4':
       #remove hyperlink from *all* links created via the web2py A() helper
       def A(*args, **kwargs): return SPAN(*args, _style="text-decoration: underline;", **kwargs)

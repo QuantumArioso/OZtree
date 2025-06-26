@@ -5,6 +5,9 @@
   <link rel="stylesheet" href="{{=URL('static','uikit-3/css/uikit.min.css')}}" />
   <link rel="stylesheet" href="{{=URL('static','css/content.css')}}" type="text/css" />
   <link rel="stylesheet" href="{{=URL('static','css/popup.css')}}" type="text/css" />
+  {{if current.disable_external_links or request.vars.popup == '3':}}
+  <link rel="stylesheet" href="{{=URL('static','css/kiosk-mode.css')}}" type="text/css" />
+  {{pass}}
   <link rel="shortcut icon" href="{{=URL('static', 'favicon.ico')}}" type="image/x-icon" />
   <link rel="apple-touch-icon" href="{{=URL('static','favicon.png')}}">
   {{include 'web2py.html'}}
@@ -42,5 +45,19 @@
     {{include}}
     </div>
     <!-- The javascript =============================== -->
+    {{if current.disable_external_links or request.vars.popup == '3':}}
+    <script src="{{=URL('static','js/kiosk-mode.js')}}"></script>
+    <script>
+    // Initialize kiosk mode for popup pages
+    document.addEventListener('DOMContentLoaded', function() {
+        KioskMode.init({
+            enableNotification: false, // Don't show notification in popups
+            greyOutLinks: true,
+            removeTargetBlank: true,
+            disableIframeLinks: true
+        });
+    });
+    </script>
+    {{pass}}
   </body>
 </html>

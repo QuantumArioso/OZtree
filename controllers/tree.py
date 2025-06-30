@@ -73,6 +73,33 @@ def GBIF_OZpage():
         raise HTTP(400,"No valid GBIF id, or leaf status (0 or 1) provided")
     except LookupError as e:
         raise HTTP(400,e)
+
+def NCBI_OZpage():
+    """
+    This creates a page on the local website that loads NCBI taxonomy data
+    in an iframe, with kiosk mode support to block external links.
+    
+    Call as tree/NCBI_OZpage?ncbi=1234,leaf=1
+    """
+    try:
+        is_leaf = int(request.vars.leaf)
+        ncbi_id = int(request.vars.ncbi)
+        if is_leaf:
+            row = db.ordered_leaves(ncbi=ncbi_id)
+            if not row:
+                raise LookupError("No such NCBI id ({}) in the OneZoom leaves table".format(ncbi_id))
+        else:
+            row = db.ordered_nodes(ncbi=ncbi_id)
+            if not row:
+                raise LookupError("No such NCBI id ({}) in the OneZoom nodes table".format(ncbi_id))
+        nice_names = nice_name_from_otts([row.ott], html=True, the=True, leaf_only=is_leaf)
+        nice_name = nice_names.get(row.ott, "<i>" + row.name + "</i>" if is_leaf else row.name)
+        ncbi_url = "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id={}".format(ncbi_id)
+        return dict(ncbi_id=str(ncbi_id), ncbi_url=ncbi_url, sci_name=row.name, nice_name=nice_name)
+    except (ValueError, TypeError):
+        raise HTTP(400,"No valid NCBI id, or leaf status (0 or 1) provided")
+    except LookupError as e:
+        raise HTTP(400,e)
     
 
 def pic_info():
@@ -182,7 +209,7 @@ def linkouts(is_leaf, ott=None, id=None, sponsorship_urls=[]):
             if row[core_table].eol:
                 urls['eol']  = eol_url(row[core_table].eol, row[core_table].ott, kiosk_mode=disable_external_links)
             if row[core_table].ncbi:
-                urls['ncbi'] = ncbi_url(row[core_table].ncbi)
+                urls['ncbi'] = ncbi_url(row[core_table].ncbi, is_leaf, kiosk_mode=disable_external_links)
             if row.iucn.iucn:
                 urls['iucn'] = iucn_url(row.iucn.iucn, kiosk_mode=disable_external_links)
             if row[core_table].gbif:
@@ -372,9 +399,15 @@ def powo_url(IPNIid):
     except:
         raise HTTP(400,"No valid IPNI id provided")
 
-def ncbi_url(NCBIid):
+def ncbi_url(NCBIid, is_leaf, kiosk_mode=False):
     try:
-        return ["//www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id={}".format(int(NCBIid))]
+        var = {'popup':request.vars.popup} if 'popup' in request.vars else {}
+        if kiosk_mode:
+            var['popup'] = '3'
+        return [
+            URL('tree','NCBI_OZpage', vars=dict(ncbi=int(NCBIid), leaf=1 if is_leaf else 0, **var), scheme=True, host=True, extension=False),
+            "//www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id={}".format(int(NCBIid)),
+        ]
     except:
         raise HTTP(400,"No valid NCBI id provided")
 

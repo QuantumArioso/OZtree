@@ -2,8 +2,8 @@
 
 This will be vertical layout on very large touch screens. Therefore, the buttons currently at the top need to be moved so they can be accessed.
 
-- External links should not be clickable
-    - Problem with the Occurence and Genetics tabs--links that open in a separate tab are still opening. Look back through what copilot did, then probably revert (make sure conservation tab stuff is saved) and try again or think of some other solution
+- ~~COMPLETE: External links should not be clickable~~
+    - ~~COMPLETE: Problem with the Occurrence and Genetics tabs--links that open in a separate tab are still opening. Look back through what copilot did, then probably revert (make sure conservation tab stuff is saved) and try again or think of some other solution. Added kiosk mode integration to GBIF_OZpage.html to disable attribution links.~~
 - Reset to default after a couple minutes of inactivity (or have it move through the tree like it does on the homepage of the website?)
     - Would probably be easiest to just make kiosk reload to this: https://localhost:8000/life/@biota=93302?otthome=%40%3D1028829#x223,y1324,w1.3060
 - ~~COMPLETE: OneZoom logo top left: disable homepage link~~

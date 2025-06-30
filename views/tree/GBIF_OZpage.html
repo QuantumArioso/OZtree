@@ -28,11 +28,30 @@
       flex-direction: column;
     }
     #map { flex-grow: 1; }
+    
+    {{if current.disable_external_links:}}
+    /* Overlay to block attribution links in kiosk mode */
+    #attribution-overlay {
+      position: fixed;
+      bottom: 0;
+      right: 0;
+      width: 300px;
+      height: 60px;
+      background: transparent;
+      z-index: 1000;
+      pointer-events: auto;
+      cursor: default;
+    }
+    {{pass}}
   </style>
 </head>
 <body>
-<h3>Occurrence map for {{=nice_name}} from {{=A("GBIF", _href="//www.gbif.org/", _target="_blank")}}</h3>
+<h3>Occurrence map for {{=nice_name}} from GBIF</h3>
 <div id="map"></div>
+{{if current.disable_external_links:}}
+<!-- Overlay to block attribution links in kiosk mode -->
+<div id="attribution-overlay" title="External links are disabled in kiosk mode"></div>
+{{pass}}
 <script>
   var pixel_ratio = parseInt(window.devicePixelRatio) || 1;
 

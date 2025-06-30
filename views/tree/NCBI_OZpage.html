@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>NCBI genetics for {{=sci_name}}</title>
+  <meta name="description" content="NCBI taxonomy and genetics page">
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge{{=not request.is_local and ',chrome=1' or ''}}">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="https://www.ncbi.nlm.nih.gov/favicon.ico"/>
+  <style>
+    html, body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      background-color: white;
+      color: black;
+    }
+    #ncbi-frame { 
+      width: 100%;
+      height: 100vh;
+      border: none;
+    }
+    
+    {{pass}}
+  </style>
+</head>
+<body>
+<div style="position: relative; width: 100%; height: 100vh;">
+  <iframe id="ncbi-frame" src="{{=ncbi_url}}" title="NCBI genetics and taxonomy information" 
+          {{if current.disable_external_links:}}sandbox="allow-scripts allow-same-origin allow-forms"{{pass}}></iframe>
+</div>
+
+{{if current.disable_external_links:}}
+<script>
+// In kiosk mode, intercept navigation attempts
+(function() {
+  'use strict';
+  
+  var iframe = document.getElementById('ncbi-frame');
+  var currentUrl = iframe.src;
+  
+  // Function to check if a URL is external to NCBI
+  function isExternalToNCBI(url) {
+    if (!url) return false;
+    
+    // Allow relative URLs
+    if (url.startsWith('/') || url.startsWith('#') || url.startsWith('?')) {
+      return false;
+    }
+    
+    // Allow NCBI domains
+    var ncbiDomains = [
+      'ncbi.nlm.nih.gov',
+      'www.ncbi.nlm.nih.gov',
+      'pubmed.ncbi.nlm.nih.gov',
+      'www.pubmed.ncbi.nlm.nih.gov'
+    ];
+    
+    try {
+      var urlObj = new URL(url, window.location.href);
+      var hostname = urlObj.hostname.toLowerCase();
+      
+      return !ncbiDomains.some(function(domain) {
+        return hostname === domain || hostname.endsWith('.' + domain);
+      });
+    } catch(e) {
+      return true; // If we can't parse it, assume it's external
+    }
+  }
+  
+  function showNotification(message) {
+    var notification = document.getElementById('kiosk-notification');
+    if (!notification) {
+      notification = document.createElement('div');
+      notification.id = 'kiosk-notification';
+      notification.style.cssText = 
+        'position: fixed; top: 20px; right: 20px; ' +
+        'background: #f44336; color: white; padding: 12px 16px; ' +
+        'border-radius: 4px; z-index: 10000; ' +
+        'font-family: Arial, sans-serif; font-size: 14px; opacity: 0; ' +
+        'transition: opacity 0.3s;';
+      document.body.appendChild(notification);
+    }
+    
+    notification.textContent = message;
+    notification.style.opacity = '1';
+    
+    setTimeout(function() {
+      notification.style.opacity = '0';
+    }, 3000);
+  }
+  
+  // Monitor iframe URL changes
+  function monitorNavigation() {
+    var checkNavigation = setInterval(function() {
+      try {
+        var newUrl = iframe.contentWindow.location.href;
+        if (newUrl !== currentUrl) {
+          if (isExternalToNCBI(newUrl)) {
+            // Block external navigation by reloading the original URL
+            iframe.src = currentUrl;
+            showNotification('External navigation blocked in kiosk mode');
+          } else {
+            // Allow internal NCBI navigation
+            currentUrl = newUrl;
+          }
+        }
+      } catch(e) {
+        // Cross-origin error - can't access location, which is expected
+        // This means we're still on NCBI or navigation was blocked
+      }
+    }, 500);
+    
+    // Clean up on page unload
+    window.addEventListener('beforeunload', function() {
+      clearInterval(checkNavigation);
+    });
+  }
+  
+  // Start monitoring after iframe loads
+  iframe.addEventListener('load', function() {
+    setTimeout(monitorNavigation, 1000);
+  });
+  
+  // Block right-click context menu that might allow "Open in new tab"
+  iframe.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+    showNotification('Context menu disabled in kiosk mode');
+    return false;
+  });
+  
+})();
+</script>
+{{pass}}
+
+</body>
+</html>

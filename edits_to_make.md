@@ -1,5 +1,19 @@
 # Bean Museum Edits
 
+### 10/24/25 Problems
+**For IT**:
+- Tours broken except "Frogs and Toads"
+
+**For code**:
+- Users need to not be able to visit external links:
+    - Wikipedia links
+    - Occurence copyright
+    - Genetics links
+- Pop-ups: shorter, bigger X and tabs at the bottom so users can find a reach it more easily
+- Tours: the tours pop-up should be on the side of the screen instead of the bottom (how it is when the screen is slightly wider than it is on the display)
+
+### Stuff from Summer 2025
+
 This will be vertical layout on very large touch screens. Therefore, the buttons currently at the top need to be moved so they can be accessed.
 
 - Reset to default after a couple minutes of inactivity (or have it move through the tree like it does on the homepage of the website?)

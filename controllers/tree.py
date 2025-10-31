@@ -445,7 +445,7 @@ def wikipedia_urls(Qid, wikipedia_lang_flag, requested_wikilang, is_leaf, name, 
             var = {'popup':request.vars.popup} if 'popup' in request.vars else {}
             
             # Add popup=3 for kiosk mode to disable links within the wikipedia page
-            if kiosk_mode:
+            if kiosk_mode and (not var.get('popup') or int(var.get('popup', 0)) < 3):
                 var['popup'] = '3'
                 
             OZ_wikipage = URL('tree','wikipedia_OZpage', vars=dict(Q=int(Qid), wlang=requested_wikilang, name=name, leaf=1 if is_leaf else 0, **var), scheme=True, host=True, extension = False)

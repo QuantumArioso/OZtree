@@ -84,12 +84,7 @@
     flex-direction: column;
     gap: 0.3rem;
 
-    @media (orientation: portrait) {
-      /* Mobile landscape mode */
-      max-width: 50%;
-      margin: 0 5px;
-
-      @media (min-width: 300px) {
+    @media (min-width: 10px) {
         /* Desktop/tablet landscape mode */
         position: absolute;
         top: 50vh;
@@ -102,7 +97,26 @@
         border-bottom-width: 1px;
         border-radius: 5px;
       }
-    }
+
+    // @media (orientation: portrait) {
+    //   /* Mobile landscape mode */
+    //   max-width: 50%;
+    //   margin: 0 5px;
+
+    //   @media (min-width: 10px) {
+    //     /* Desktop/tablet landscape mode */
+    //     position: absolute;
+    //     top: 50vh;
+    //     left: 5vw;
+    //     width: 40vw;
+    //     max-width: none;
+    //     max-height: calc(100vh - 40px * 2); /* Don't overlap OZ logo */
+    //     transform: translate(0, -50%);
+
+    //     border-bottom-width: 1px;
+    //     border-radius: 5px;
+    //   }
+    // }
   }
 
   .window_text {

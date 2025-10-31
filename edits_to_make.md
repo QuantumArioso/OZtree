@@ -7,10 +7,10 @@
 **In code**:
 - Users need to not be able to visit external links:
     - Encyclopedia of Life
-    - Occurence copyright
     - Genetics links
     - YouTube links in Tours
     - ~~COMPLETE: Wikipedia links~~
+    - ~~COMPLETE: Occurence copyright~~
 - Pop-ups: shorter, bigger X and tabs at the bottom so users can find a reach it more easily
 - Sometimes the tours freeze when we get too far into them--doesn't seem to be a problem on the Frogs & Toads one on the website though...
 - ~~COMPLETE: Tours: the tours pop-up should be on the side of the screen instead of the bottom (how it is when the screen is slightly wider than it is on the display)~~

@@ -42,6 +42,7 @@
       pointer-events: auto;
       cursor: default;
     }
+
     {{pass}}
   </style>
 </head>
@@ -102,5 +103,47 @@
   });
 </script>
 <script src="https://api.gbif.org/v2/map/keepState.js"></script>
+<style>
+/* optional visual cue for disabled links */
+.disable-links a {
+  pointer-events: none; /* defensive, but JS does the heavy lifting */
+  cursor: default;
+  color: inherit;
+  text-decoration: none;
+  opacity: 0.85;
+}
+</style>
+
+<script>
+(function(){
+  // add class to body so CSS can apply if you use it
+  document.body.classList.add('disable-links');
+
+  // capture & block all anchor clicks (use capturing phase so it runs before navigation)
+  document.addEventListener('click', function(e){
+    var a = e.target.closest && e.target.closest('a');
+    if (a) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      // optionally show a message:
+      // console.log('Links disabled on this page');
+    }
+  }, true);
+
+  // block keyboard activation (Enter/Space) when focus is on an anchor
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Enter' || e.key === ' ') {
+      var el = document.activeElement;
+      if (el && el.closest && el.closest('a')) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+      }
+    }
+  }, true);
+
+  // defensive: in case code wants to open links via window.open from inline handlers,
+  // intercept beforeunload/navigation events is more invasive and not recommended.
+})();
+</script>
 </body>
 </html>

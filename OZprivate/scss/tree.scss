@@ -356,8 +356,8 @@ ul.ui-controls.button-label-hidden {
     height: 2rem;
     padding-right: 2rem; /* allow for the expand button */
     padding-left: 0;
-    order: 2;
-    border-top: 1.5px solid #807f7f;
+    // order: 2; /* uncomment this to move tabs to the bottom */
+    // border-top: 1.5px solid #807f7f;
     width: 100%;
 }
 #external-modal .external-content .external-tabs>li {

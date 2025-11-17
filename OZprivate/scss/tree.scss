@@ -342,6 +342,8 @@ ul.ui-controls.button-label-hidden {
 #external-modal .uk-modal-dialog {
     height: 100%; /* always fill with the dialog */
     width: 120em; //override the default max width of 1800px so it is wider but readable
+    display: block;
+    bottom: 0;
 }
 
 #external-modal .external-content {
@@ -353,7 +355,7 @@ ul.ui-controls.button-label-hidden {
 #external-modal .external-content .external-tabs {
     box-sizing: border-box;
     margin:0;
-    height: 2rem;
+    height: 3rem;
     padding-right: 2rem; /* allow for the expand button */
     padding-left: 0;
     // order: 2; /* uncomment this to move tabs to the bottom */
@@ -367,6 +369,7 @@ ul.ui-controls.button-label-hidden {
     height:inherit;
     box-sizing: border-box;
     text-transform: none;
+    font-size: 1rem;
 }
 
 #external-modal .external-content .external-tabs img {

@@ -54,14 +54,6 @@
 </div>
 
 <div class="ui-bottomleft">
-  <ul class="ui-controls ui-controls-tours uk-iconnav uk-iconnav-vertical">
-    <li id="toursButton">
-      <div class="icon-container">
-        <a uk-tooltip="pos: left" href="#tours-modal" uk-toggle uk-icon="icon: location"></a>
-      </div>
-    </li>
-    <li class="drawer tour-teaser"><a href=""></a></li>
-  </ul>
   <ul class="ui-controls uk-iconnav uk-iconnav-vertical">
     <li id="locationButton">
       <div class='icon-container'>

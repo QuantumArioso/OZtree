@@ -48,7 +48,15 @@ progress[value] {
 }
 
 .uk-modal-container {
+  bottom: 0 !important;
+  height: auto; /* Allow the modal to adjust based on its content */
+  max-height: 75vh !important;
   .uk-modal-dialog {
+    margin: 0 auto;
+    bottom: 0 !important;
+    max-height: 75vh !important; /* Ensure the dialog doesn't exceed the container's height */
+    overflow-y: auto;
+
     @extend %oz-drop-shadow;
     border: 1px solid $oz_border_def;
     border-radius: 5px;
@@ -64,8 +72,6 @@ progress[value] {
     top: 0;
     right: 0;
     padding: 0.5rem;
-    // height: 20vw;
-    // width: 20vw;
     /* use this instead for button at bottom: */
     // top: auto;
     // bottom: 0;
@@ -77,6 +83,15 @@ progress[value] {
     color: $oz_border_def;
     line,path {
         stroke-width: 2;
+    }
+
+    svg {
+      width: 2rem;        /* match font-size for consistency */
+      height: 2rem;
+      display: inline-block;
+      vertical-align: middle;
+      /* keep stroke width visually consistent when scaling */
+      vector-effect: non-scaling-stroke;
     }
 }
 

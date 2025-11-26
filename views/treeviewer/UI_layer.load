@@ -53,7 +53,7 @@
   </ul>
 </div>
 
-<div class="ui-bottomleft">
+<div class="ui-bottomleft"
   <ul class="ui-controls uk-iconnav uk-iconnav-vertical">
     <li id="locationButton">
       <div class='icon-container'>

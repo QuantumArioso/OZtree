@@ -208,8 +208,8 @@ def linkouts(is_leaf, ott=None, id=None, sponsorship_urls=[]):
                 urls['wiki'] = wikipedia_urls(row[core_table].wikidata, row[core_table].wikipedia_lang_flag, wikilang, is_leaf, name, allow_namesearch=False if request.vars.no_wikisearch else True, kiosk_mode=disable_external_links)
             if row[core_table].eol:
                 urls['eol']  = eol_url(row[core_table].eol, row[core_table].ott, kiosk_mode=disable_external_links)
-            if row[core_table].ncbi:
-                urls['ncbi'] = ncbi_url(row[core_table].ncbi, is_leaf, kiosk_mode=disable_external_links)
+            # if row[core_table].ncbi:
+            #     urls['ncbi'] = ncbi_url(row[core_table].ncbi, is_leaf, kiosk_mode=disable_external_links)
             if row.iucn.iucn:
                 urls['iucn'] = iucn_url(row.iucn.iucn, kiosk_mode=disable_external_links)
             if row[core_table].gbif:
